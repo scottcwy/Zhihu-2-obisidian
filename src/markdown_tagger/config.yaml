@@ -1,0 +1,60 @@
+directories:
+  # 输入目录，存放原始 Markdown 文件
+  input: "../../data/zhihu_downloads"
+  # 输出目录，存放处理后的文件
+  output: "../../data/output"
+
+metadata:
+  # 元数据配置
+  format: yaml  # 元数据格式，支持 yaml
+  position: top  # 元数据位置，top 表示在文件开头
+  separator: "---"  # 元数据分隔符
+  fields:  # 需要生成的元数据字段
+    - tags  # 标签列表
+    - summary  # 文章摘要
+    - topic  # 主题领域
+    - difficulty  # 难度级别
+    - type  # 文章类型
+    - created  # 创建时间
+    - updated  # 更新时间
+  # 提示词配置
+  system_prompt: |
+    你是一个专业的文档分析助手。请仔细阅读文档内容，生成以下元数据：
+    1. 标签（tags）：3-5个最能代表文章主题的关键词或短语
+    2. 摘要（summary）：100-200字的文章主要内容总结
+    3. 主题（topic）：用一个简短的词组描述文章的主要主题领域
+    4. 难度（difficulty）：文章的理解难度（初级/中级/高级）
+    5. 类型（type）：文章的类型（如：教程、观点、案例分析等）
+    
+    请确保：
+    1. 标签要简洁、准确，避免过于宽泛
+    2. 摘要要抓住文章核心观点
+    3. 所有输出都使用中文
+    4. 严格按照YAML格式输出
+
+ai:
+  # AI 模型配置
+  model: "deepseek-ai/DeepSeek-V2.5"  # 使用 DeepSeek-V2.5 模型
+  temperature: 0.7
+  max_tokens: 500
+  
+  # 标签配置
+  max_tags: 5  # 每篇文章最多生成的标签数量
+  
+  # 提示词配置
+  system_prompt: |
+    你是一个专业的文档分析助手。你的任务是分析文档内容，并生成以下信息：
+    1. 标签（Tags）：提取3-5个最能代表文章主题的关键词或短语
+    2. 摘要（Summary）：用100-200字总结文章的主要内容
+    3. 主题（Topic）：用一个简短的词组描述文章的主要主题领域
+    4. 难度（Difficulty）：评估文章的阅读和理解难度（初级/中级/高级）
+    5. 类型（Type）：确定文章的类型（如：教程、观点、案例分析等）
+    
+    请以YAML格式输出，确保所有字段都使用中文。例如：
+    tags:
+      - 标签1
+      - 标签2
+    summary: 这是摘要
+    topic: 主题
+    difficulty: 难度级别
+    type: 文章类型
